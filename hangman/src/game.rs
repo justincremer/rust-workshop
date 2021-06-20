@@ -33,28 +33,18 @@ impl Session<'_> {
     }
 }
 
-fn find_all(s: &str, l: char, acc: Option<[usize]>) -> Option<[usize]> {
-    s.chars().position(|c| c == l)
+fn find_all(s: &str, c: char, acc: Option<[i8]>) -> Option<[i8]> {
+    // s.chars().position(|c| c == l)
 
-    // match s.find(c) {
-    //     None => match acc {
-    //         None => None,
-    //         _ => acc,
-    //     },
-    //     Some(i) => {
-    //         acc.insert(i);
-    //         if i == s.len() {
-    //             find_all(s., c, acc)
-    //         }
-
-    //         match i {
-    //             s.len() =>
-    //             _ => {
-    //                 acc.insert(i),
-    //             }
-    //         }
-
-    //     }
-    // }
-    // res
+    match s.find(c) {
+        None => acc,
+        Some(i) => {
+            acc.insert(i);
+            let size = s.len();
+            match i {
+                size => acc,
+                _ => find_all(s[i..], c, acc),
+            }
+        }
+    }
 }
