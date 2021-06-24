@@ -1,22 +1,41 @@
 use std::io::{stdin, stdout, Write};
+use std::panic::panic_any;
 
 fn main() {
     loop {
         prompt();
+        match prompt_continue() {
+            true => continue,
+            false => return,
+        }
+    }
+}
+
+fn prompt_continue() -> bool {
+    let mut res = String::new();
+    print!("Continue? [y/n]: ");
+    read(&mut res);
+    match res.trim().chars().next().unwrap() {
+        'y' => true,
+        'n' => false,
+        _ => {
+            print!("Invalid answer ");
+            prompt_continue()
+        }
     }
 }
 
 fn prompt() {
-    println!("Pick an operator [+-*/]: ");
+    print!("Pick an operator [+-*/]: ");
     let op: char = read_op();
-    println!("Pick the first number: ");
+    print!("Pick the first number: ");
     let n1 = read_num();
-    println!("Pick the second number: ");
+    print!("Pick the second number: ");
     let n2 = read_num();
 
     match calculate(op, n1, n2) {
-        Ok(n) => println!("{} {} {} = {}", n1, op, n2, n),
-        Err(e) => panic!(e),
+        Ok(n) => print!("{} {} {} = {}\n", n1, op, n2, n),
+        Err(e) => panic_any(e),
     }
 }
 
@@ -39,7 +58,14 @@ fn read_num() -> f32 {
 fn read_op() -> char {
     let mut res = String::new();
     read(&mut res);
-    res.trim().chars().next().unwrap()
+
+    let res: char = res.trim().chars().next().unwrap();
+    if "+-*/".contains(res) {
+        res
+    } else {
+        print!("Invalid operator, try again [+-*/]: ");
+        read_op()
+    }
 }
 
 fn read(input: &mut String) {
