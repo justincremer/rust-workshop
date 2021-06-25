@@ -2,9 +2,10 @@ mod game;
 use game::Session;
 
 fn main() {
-    let game = Session::new(&"Hello World", 5);
-    println!(
-        "{} {} {} {}",
-        game.answer, game.hidden, game.letters_guessed, game.guesses_left
-    )
+    let mut game = Session::new("Hello World", 5);
+    match game.guess('c') {
+        Err(e) => std::panic::panic_any(e),
+        Ok(_) => {}
+    };
+    game.test_display();
 }
