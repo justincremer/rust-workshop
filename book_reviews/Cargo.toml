@@ -1,5 +1,5 @@
 [package]
-name = "hashmap"
+name = "book_reviews"
 version = "0.1.0"
 authors = ["justincremer <jacremer@live.com>"]
 edition = "2018"

@@ -30,6 +30,13 @@ fn main() {
     display(&book_reviews);
 
     assert_eq!(book_reviews.contains_key("Capital V1"), true);
+
+    display_review(&book_reviews, "The conquest of Bread");
+    book_reviews.insert("The conquest of Bread", 8);
+    display_review(&book_reviews, "The conquest of Bread");
+
+    book_reviews.clear();
+    display(&book_reviews);
 }
 
 fn insert_many<'a>(map: &mut HashMap<&'a str, u8>, items: Vec<(&'a str, u8)>) {
@@ -42,4 +49,14 @@ fn insert_many<'a>(map: &mut HashMap<&'a str, u8>, items: Vec<(&'a str, u8)>) {
 fn display(map: &HashMap<&str, u8>) {
     println!();
     map.into_iter().for_each(|b| println!("{:?}", (b.0, b.1)));
+}
+fn display_review<'a>(map: &HashMap<&str, u8>, k: &str) {
+    println!("\n{}", get_review(map, k));
+}
+
+fn get_review<'a>(map: &HashMap<&str, u8>, k: &str) -> String {
+    match map.get(k) {
+        None => format!("{} does not exist in our database", k),
+        Some(v) => format!("{} has a rating of {}", k, v),
+    }
 }
