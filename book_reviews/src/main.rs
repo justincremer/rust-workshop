@@ -1,25 +1,35 @@
+#![allow(dead_code)]
 use std::collections::HashMap;
+use std::sync::Arc;
 use std::vec::Vec;
 
 fn main() {
+    test_one();
+    println!();
+    test_two();
+}
+
+fn test_two() {
+    let mut book_reviews: HashMap<&str, u8> = HashMap::new();
+    populate_with_books(&mut book_reviews);
+
+    println!("Initializing Arc");
+    let book_arc = Arc::from(book_reviews);
+    for _ in 0..10 {
+        let map = book_arc.clone();
+        std::thread::spawn(move || {
+            display_review(&map, "Capital V2");
+        });
+    }
+}
+
+// Working with HashMap and Vec
+fn test_one() {
     let mut book_reviews: HashMap<&str, u8> = HashMap::new();
     println!("\nDatabase initialized");
 
-    fn add_books(map: &mut HashMap<&str, u8>) {
-        insert_many(
-            map,
-            vec![
-                ("Capital V1", 8),
-                ("Capital V2", 7),
-                ("Capital V3", 6),
-                ("Living my Life", 9),
-                ("The Communist Manifesto", 8),
-            ],
-        );
-    }
-
     display(&book_reviews);
-    add_books(&mut book_reviews);
+    populate_with_books(&mut book_reviews);
     display(&book_reviews);
 
     book_reviews.remove("The Communist Manifesto");
@@ -37,6 +47,19 @@ fn main() {
 
     print!("\nFinished draining...");
     display(&book_reviews);
+}
+
+fn populate_with_books(map: &mut HashMap<&str, u8>) {
+    insert_many(
+        map,
+        vec![
+            ("Capital V1", 8),
+            ("Capital V2", 7),
+            ("Capital V3", 6),
+            ("Living my Life", 9),
+            ("The Communist Manifesto", 8),
+        ],
+    );
 }
 
 fn insert_many<'a>(map: &mut HashMap<&'a str, u8>, items: Vec<(&'a str, u8)>) {
