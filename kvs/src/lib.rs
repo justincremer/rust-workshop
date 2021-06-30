@@ -1,9 +1,9 @@
-use serde::{Deserialize, Serialize};
+// use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 // use std::fs::File;
 // use std::path::Path;
 
-#[derive(Serialize, Deserialize, Debug)]
+// #[derive(Serialize, Deserialize, Debug)]
 pub struct Store {
     items: HashMap<String, String>,
 }
