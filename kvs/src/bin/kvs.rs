@@ -1,4 +1,3 @@
-#![allow(dead_code)]
 use kvs::Store;
 use structopt::StructOpt;
 
@@ -23,16 +22,4 @@ fn main() {
             store.remove(&key);
         }
     }
-}
-
-fn test() {
-    let mut accounts: Store = Default::default();
-    let key = "test";
-    accounts.set(key, "test");
-    println!(
-        "{} : {}",
-        key,
-        accounts.get(key).expect("Key does not exist in database")
-    );
-    accounts.remove(key);
 }
